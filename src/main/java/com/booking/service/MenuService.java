@@ -8,6 +8,7 @@ import com.booking.models.Person;
 import com.booking.models.Reservation;
 import com.booking.models.Service;
 import com.booking.repositories.PersonRepository;
+import com.booking.repositories.ReservationRepository;
 import com.booking.repositories.ServiceRepository;
 
 public class MenuService {
@@ -18,7 +19,7 @@ public class MenuService {
 
     public static void mainMenu() {
         String[] mainMenuArr = {"Show Data", "Create Reservation", "Complete/cancel reservation", "Exit"};
-        String[] subMenuArr = {"Recent Reservation", "Show Customer", "Show Available Employee", "Back to main menu"};
+        String[] subMenuArr = {"Recent Reservation", "Show Customer", "Show Available Employee","Show Reservation History", "Back to main menu"};
     
         int optionMainMenu;
         int optionSubMenu;
@@ -27,39 +28,45 @@ public class MenuService {
         boolean backToSubMenu = false;
         do {
             PrintService.printMenu("Main Menu", mainMenuArr);
-            optionMainMenu = Integer.valueOf(input.nextLine());
+            optionMainMenu = Integer.parseInt(input.nextLine());
             switch (optionMainMenu) {
                 case 1:
                     do {
                         PrintService.printMenu("Show Data", subMenuArr);
-                        optionSubMenu = Integer.valueOf(input.nextLine());
+                        optionSubMenu = Integer.parseInt(input.nextLine());
                         // Sub menu - menu 1
                         switch (optionSubMenu) {
                             case 1:
                                 // panggil fitur tampilkan recent reservation
+                                PrintService.showRecentReservation();
                                 break;
                             case 2:
                                 // panggil fitur tampilkan semua customer
+                                PrintService.showAllCustomer();
                                 break;
                             case 3:
                                 // panggil fitur tampilkan semua employee
+                                PrintService.showAllEmployee();
                                 break;
                             case 4:
                                 // panggil fitur tampilkan history reservation + total keuntungan
+                                PrintService.showHistoryReservation();
                                 break;
                             case 0:
-                                backToSubMenu = false;
+                                backToSubMenu = true;
                         }
                     } while (!backToSubMenu);
                     break;
                 case 2:
                     // panggil fitur menambahkan reservation
+                    ReservationRepository.addReservationList();
                     break;
                 case 3:
                     // panggil fitur mengubah workstage menjadi finish/cancel
+                    ReservationRepository.changeWorkstage();
                     break;
                 case 0:
-                    backToMainMenu = false;
+                    backToMainMenu = true;
                     break;
             }
         } while (!backToMainMenu);
